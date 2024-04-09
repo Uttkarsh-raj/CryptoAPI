@@ -16,10 +16,10 @@ import (
 )
 
 func StartBackgroundJob(client *mongo.Client) {
-	ctx, cancel := context.WithTimeout(context.Background(), time.Minute*60)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Minute*5)
 	defer cancel()
 	fmt.Printf("%s: Background process started.\n", time.Now())
-	Schedule(ctx, time.Second*60, time.Second*60, func(t time.Time) { // change the period and duration for running the data
+	Schedule(ctx, time.Minute*5, time.Minute*5, func(t time.Time) { // change the period and duration for running the data
 		GetCoinsAndStore(client)
 	})
 }
@@ -53,7 +53,7 @@ func GetCoinsAndStore(client *mongo.Client) {
 }
 
 func StoreCoins(client *mongo.Client, coins []*model.CoinModel) {
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*100)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Minute*5)
 	defer cancel()
 
 	collection := database.OpenCollection(client, "CryptoCoins")

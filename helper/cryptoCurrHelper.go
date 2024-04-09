@@ -3,6 +3,8 @@ package helper
 import (
 	"context"
 	"encoding/json"
+	"errors"
+	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -36,4 +38,47 @@ func GetAllCoins() []*model.CoinModel {
 
 	cryptoCoins = model.GetCoinsList(coinResponses)
 	return cryptoCoins
+}
+
+func GetCoinByIdAndDate(id, date string) (*model.CoinWithPriceModel, error) {
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Println("Recovered from panic:", r)
+			// http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		}
+	}()
+	queryUrl := "https://api.coingecko.com/api/v3/coins/" + string(id) + "/history?date=" + string(date)
+	println(queryUrl)
+	res, err := httpClient.Get(queryUrl)
+	if err != nil {
+		return nil, fmt.Errorf("%s", err.Error())
+	}
+	defer res.Body.Close()
+	if res.StatusCode == 401 {
+		return nil, fmt.Errorf("error: Public API users are limited to querying historical data within the past 365 days")
+	}
+	if res.StatusCode == 429 {
+		return nil, fmt.Errorf("error: You've exceeded the Rate Limit")
+	}
+	if res.StatusCode != http.StatusOK {
+		var errorResponse map[string]interface{}
+		if err := json.NewDecoder(res.Body).Decode(&errorResponse); err != nil {
+			return nil, err
+		}
+		return nil, errors.New(errorResponse["error"].(string))
+	}
+
+	var jsonBody map[string]interface{}
+	err = json.NewDecoder(res.Body).Decode(&jsonBody)
+	if err != nil {
+		return nil, err
+	}
+
+	coinWithPrice := model.ConvertJsonToCoinWithPriceModel(jsonBody)
+
+	return coinWithPrice, nil
+}
+
+func FetchComapaniesFromId(id string) []string {
+
 }
