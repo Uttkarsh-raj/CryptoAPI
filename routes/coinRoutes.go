@@ -6,6 +6,7 @@ import (
 )
 
 func IntegrateRoutes(router *gin.Engine) {
+	router.GET("/", controller.TestServer())
 	router.GET("/convert", controller.ConvertPrice())
 	router.GET("/companies", controller.FetchAllCompanies())
 }

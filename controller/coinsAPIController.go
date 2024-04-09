@@ -12,6 +12,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func TestServer() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		ctx.JSON(http.StatusOK, gin.H{"success": true, "message": "Hello there"})
+	}
+}
+
 func ConvertPrice() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		_, cancel := context.WithTimeout(context.Background(), time.Second*100)

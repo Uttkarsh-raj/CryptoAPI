@@ -2,7 +2,6 @@ package main
 
 import (
 	"log"
-	"net/http"
 
 	"github.com/Uttkarsh-raj/Crypto/controller"
 	"github.com/Uttkarsh-raj/Crypto/database"
@@ -13,7 +12,6 @@ import (
 func main() {
 	router := gin.New()
 	router.Use(gin.Logger())
-	router.GET("/", func(ctx *gin.Context) { ctx.JSON(http.StatusOK, gin.H{"message": "Hello there"}) })
 	routes.IntegrateRoutes(router)
 	mongoClient := database.DBInstance()
 	go controller.StartBackgroundJob(mongoClient)
