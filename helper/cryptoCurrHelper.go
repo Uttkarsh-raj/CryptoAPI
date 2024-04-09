@@ -48,7 +48,6 @@ func GetCoinByIdAndDate(id, date string) (*model.CoinWithPriceModel, error) {
 		}
 	}()
 	queryUrl := "https://api.coingecko.com/api/v3/coins/" + string(id) + "/history?date=" + string(date)
-	println(queryUrl)
 	res, err := httpClient.Get(queryUrl)
 	if err != nil {
 		return nil, fmt.Errorf("%s", err.Error())
@@ -79,6 +78,42 @@ func GetCoinByIdAndDate(id, date string) (*model.CoinWithPriceModel, error) {
 	return coinWithPrice, nil
 }
 
-func FetchComapaniesFromId(id string) []string {
+func FetchComapaniesFromId(id string) ([]*model.Company, error) {
+	url := "https://api.coingecko.com/api/v3/companies/public_treasury/" + id
+	resp, err := httpClient.Get(url)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode == 401 {
+		return nil, fmt.Errorf("error: Public API users are limited to querying historical data within the past 365 days")
+	}
+	if resp.StatusCode == 429 {
+		return nil, fmt.Errorf("error: You've exceeded the Rate Limit")
+	}
+	if resp.StatusCode != http.StatusOK {
+		var errorResponse map[string]interface{}
+		if err := json.NewDecoder(resp.Body).Decode(&errorResponse); err != nil {
+			return nil, err
+		}
+		return nil, errors.New(errorResponse["error"].(string))
+	}
+	var jsonResponse map[string]interface{}
+	err = json.NewDecoder(resp.Body).Decode(&jsonResponse)
+	if err != nil {
+		return nil, err
+	}
 
+	var companies []*model.Company
+	companiesData, err := json.Marshal(jsonResponse["companies"])
+	if err != nil {
+		return nil, err
+	}
+
+	err = json.Unmarshal(companiesData, &companies)
+	if err != nil {
+		return nil, err
+	}
+
+	return companies, nil
 }

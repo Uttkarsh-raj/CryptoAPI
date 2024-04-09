@@ -3,7 +3,6 @@ package controller
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"strconv"
 	"time"
@@ -26,11 +25,9 @@ func ConvertPrice() gin.HandlerFunc {
 		}
 
 		request := model.ConvertFromJson(body)
-		println(request.FromCurrency)
 
 		fromCoin, err := helper.GetCoinByIdAndDate(request.FromCurrency, request.Date)
 		if err != nil {
-			// fmt.Println(err.Error())
 			c.JSON(http.StatusBadRequest, gin.H{"success": false, "message": err.Error()})
 			return
 		}
@@ -54,13 +51,13 @@ func ConvertPrice() gin.HandlerFunc {
 			c.JSON(http.StatusOK, response)
 			return
 		}
-		c.JSON(http.StatusBadRequest, gin.H{"success": false, "message": "Some error occured."})
+		c.JSON(http.StatusInternalServerError, gin.H{"success": false, "message": "Some error occured."})
 	}
 }
 
 func FetchAllCompanies() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		ctx, cancel := context.WithTimeout(context.Background(), time.Second*100)
+		_, cancel := context.WithTimeout(context.Background(), time.Second*100)
 		defer cancel()
 
 		var body map[string]interface{}
@@ -70,7 +67,22 @@ func FetchAllCompanies() gin.HandlerFunc {
 			return
 		}
 
-		listOfCompanies := helper.FetchComapaniesFromId(body["currency"])
-		fmt.Println(ctx)
+		coinId := body["currency"].(string)
+		if coinId == "" {
+			c.JSON(http.StatusBadRequest, gin.H{"success": false, "message": "currency field missing from body."})
+			return
+		}
+		listOfCompanies, err := helper.FetchComapaniesFromId(coinId)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"success": false, "message": err.Error()})
+			return
+		}
+
+		response := gin.H{
+			"success": true,
+			"data":    listOfCompanies,
+		}
+
+		c.JSON(http.StatusOK, response)
 	}
 }
