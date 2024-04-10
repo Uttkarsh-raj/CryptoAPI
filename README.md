@@ -78,15 +78,10 @@ To get started with your Golang application, follow these steps:
 
 Below is an example of how you can instruct your audience on installing and setting up your app.This template doesn't rely on any external dependencies or services.
 
-1. Clone the repo 
-  ```
-  git clone https://github.com/Uttkarsh-raj/CryptoAPI
-  ```
-
-2. Install the packages 
-  ```
-  go mod tidy
-  ```
+1. Run this on your terminal (needs docker to be preinstalled):
+   ```
+   docker run -p 3000:3000 -it uttkarshraj/cryptapi
+   ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
