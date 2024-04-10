@@ -4,6 +4,8 @@ ENV MONGODB_URL = your_url_here
 
 ENV CLUSTER = your_cluster_name_here
 
+ENV APIKEY = your_api_key_here
+
 WORKDIR /app
 
 COPY . .

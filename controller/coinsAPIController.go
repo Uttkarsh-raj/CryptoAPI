@@ -78,7 +78,7 @@ func FetchAllCompanies() gin.HandlerFunc {
 			c.JSON(http.StatusBadRequest, gin.H{"success": false, "message": "currency field missing from body."})
 			return
 		}
-		listOfCompanies, err := helper.FetchComapaniesFromId(coinId)
+		listOfCompanies, err := helper.FetchCompaniesFromId(coinId)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"success": false, "message": err.Error()})
 			return
