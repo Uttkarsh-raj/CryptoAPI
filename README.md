@@ -74,9 +74,7 @@ To get started with your Golang application, follow these steps:
 
 
 
-### Installation 
-
-Below is an example of how you can instruct your audience on installing and setting up your app.This template doesn't rely on any external dependencies or services.
+## Installation 
 
 1. Run this on your terminal (needs docker to be preinstalled):
    ```
@@ -146,9 +144,9 @@ Below is an example of how you can instruct your audience on installing and sett
 <!--USAGE EXAMPLES-->
 
 ## Usage
-1. Conversion of one crypto coin to other.
-2. List all the companies and the holdings they have for a coin.
-3. Store data to the database and run this task in the background.
+1. Conversion of the price of one crypto currency to another on a particular date.
+2. List all the companies and the holdings they have for a crypto currency.
+3. Store list of all the crypto currency to a database and run this task in the background.
 
 ## Screenshots:
 (For demo pourpose the job is running after every 2 mins in the screenshot.)
