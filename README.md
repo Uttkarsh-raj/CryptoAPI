@@ -155,9 +155,11 @@ Below is an example of how you can instruct your audience on installing and sett
 <br>
 <center>
 <img width="1000" src="https://github.com/Uttkarsh-raj/CryptoAPI/assets/106571927/acbbb50f-6865-4c73-baac-fff534fbac4c"></img>
+<img width="1000" src="https://github.com/Uttkarsh-raj/CryptoAPI/assets/106571927/37e52fd7-3bca-4f6e-b7a2-5954e23e4d15"></img>
 </center>
 <br>
 <!-- ROADMAP -->
+
 
 ## Roadmap
 
