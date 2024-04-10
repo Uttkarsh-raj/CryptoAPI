@@ -17,7 +17,7 @@ var (
 )
 
 func GetAllCoins() []*model.CoinModel {
-	_, cancel := context.WithTimeout(context.Background(), time.Second*60)
+	_, cancel := context.WithTimeout(context.Background(), time.Second*100)
 	defer cancel()
 
 	var cryptoCoins []*model.CoinModel

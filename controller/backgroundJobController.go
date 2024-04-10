@@ -20,7 +20,7 @@ func StartBackgroundJob(client *mongo.Client) {
 	defer cancel()
 	fmt.Printf("%s: Background process started.\n", time.Now())
 	Schedule(ctx, time.Minute*60, time.Minute*60, func(t time.Time) { // change the period and duration for running the data
-		GetCoinsAndStore(client)
+		go GetCoinsAndStore(client)
 	})
 }
 
@@ -53,22 +53,25 @@ func GetCoinsAndStore(client *mongo.Client) {
 }
 
 func StoreCoins(client *mongo.Client, coins []*model.CoinModel) {
-	ctx, cancel := context.WithTimeout(context.Background(), time.Minute*5)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*100)
 	defer cancel()
 
 	collection := database.OpenCollection(client, "CryptoCoins")
+	var storeCoins []interface{}
 	for i := 0; i < len(coins) && i < 2000; i++ {
 		var coin *model.CoinModel
 		err := collection.FindOne(ctx, bson.M{"name": coins[i].Name, "id": coins[i].Id, "symbol": coins[i].Symbol}).Decode(&coin)
 		if err != nil {
 			coins[i].ObjectId = primitive.NewObjectID()
-			_, err := collection.InsertOne(ctx, coins[i])
-			if err != nil {
-				log.Fatalf("Error pushing data to the server: %s", err)
-				return
-			}
+			storeCoins = append(storeCoins, coins[i])
 		}
 	}
-
+	if len(storeCoins) > 0 {
+		_, err := collection.InsertMany(ctx, storeCoins)
+		if err != nil {
+			log.Fatalf("Error pushing data to the server: %s", err)
+			return
+		}
+	}
 	fmt.Printf("%s: Successfully updated data to DB.\n", time.Now())
 }

@@ -1,15 +1,15 @@
 FROM golang:1.20.5-alpine
 
-RUN mkdir /app
+ENV MONGODB_URL = your_url_here
 
-ADD . /app
+ENV CLUSTER = your_cluster_name_here
 
 WORKDIR /app
 
-COPY . /app/
+COPY . .
+
+RUN go build -o main .
 
 EXPOSE 3000
 
-RUN go build -o main.exe
-
-CMD [ "./app/main.exe" ]
+CMD ["./main"]

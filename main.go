@@ -14,6 +14,6 @@ func main() {
 	router.Use(gin.Logger())
 	routes.IntegrateRoutes(router)
 	mongoClient := database.DBInstance()
-	go controller.StartBackgroundJob(mongoClient)
+	go controller.StartBackgroundJob(mongoClient) // To run the background task uncomment this
 	log.Fatal(router.Run(":3000"))
 }
