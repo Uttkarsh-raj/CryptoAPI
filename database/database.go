@@ -14,7 +14,7 @@ import (
 
 func DBInstance() *mongo.Client {
 
-	err := godotenv.Load(" /etc/secrets/.env")
+	err := godotenv.Load(".env")
 	if err != nil {
 		log.Fatal("Error loading the environment file.")
 	}
