@@ -151,7 +151,7 @@ Below is an example of how you can instruct your audience on installing and sett
 3. Store data to the database and run this task in the background.
 
 ## Screenshots:
-(For demo pourpose the job is run after every 2 mins in the screenshot.)
+(For demo pourpose the job is running after every 2 mins in the screenshot.)
 <br>
 <center>
 <img width="1000" src="https://github.com/Uttkarsh-raj/CryptoAPI/assets/106571927/acbbb50f-6865-4c73-baac-fff534fbac4c"></img>
@@ -202,22 +202,5 @@ Don't forget to give the project a star! Thanks again!
 Uttkarsh Raj - https://github.com/Uttkarsh-raj <br>
 
 Project Link: https://github.com/Uttkarsh-raj/CryptoAPI
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- ACKNOWLEDGMENTS -->
-
-## Acknowledgments
-
-Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
-
-- [Choose an Open Source License](https://choosealicense.com)
-- [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-- [Malven's Flexbox Cheatsheet](https://flexbox.malven.co/)
-- [Malven's Grid Cheatsheet](https://grid.malven.co/)
-- [Img Shields](https://shields.io)
-- [GitHub Pages](https://pages.github.com)
-- [Font Awesome](https://fontawesome.com)
-- [React Icons](https://react-icons.github.io/react-icons/search)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
